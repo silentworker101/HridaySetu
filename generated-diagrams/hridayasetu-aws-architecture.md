@@ -1,0 +1,234 @@
+# HridaySetu - AWS Architecture Diagram
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           USERS LAYER                                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │ Mobile Apps  │  │   Web UI     │  │  WhatsApp    │                 │
+│  │ (Patients)   │  │  (Doctors)   │  │     Bot      │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        EDGE & CDN LAYER                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │  Route 53    │  │  CloudFront  │  │     WAF      │                 │
+│  │    (DNS)     │  │    (CDN)     │  │  (Firewall)  │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      LOAD BALANCING LAYER                                │
+│  ┌──────────────┐  ┌──────────────┐                                    │
+│  │     ALB      │  │ API Gateway  │                                    │
+│  │ (App Load    │  │   (Kong)     │                                    │
+│  │  Balancer)   │  │              │                                    │
+│  └──────────────┘  └──────────────┘                                    │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EKS CLUSTER - MICROSERVICES                           │
+│                                                                          │
+│  ┌────────────────────────────────────────────────────────────────┐    │
+│  │                    CORE SERVICES                                │    │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐      │    │
+│  │  │Ingestion │  │ Clinical │  │ Patient  │  │ Research │      │    │
+│  │  │ Service  │  │ Service  │  │ Service  │  │ Service  │      │    │
+│  │  │ (ECS)    │  │ (ECS)    │  │ (ECS)    │  │ (ECS)    │      │    │
+│  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘      │    │
+│  └────────────────────────────────────────────────────────────────┘    │
+│                                                                          │
+│  ┌────────────────────────────────────────────────────────────────┐    │
+│  │                 SUPPORTING SERVICES                             │    │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐      │    │
+│  │  │Workflow  │  │Notification│ │Analytics │  │  AI/ML   │      │    │
+│  │  │ Service  │  │  Service  │  │ Service  │  │ Service  │      │    │
+│  │  │ (ECS)    │  │  (ECS)    │  │ (ECS)    │  │(ECS-GPU) │      │    │
+│  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘      │    │
+│  └────────────────────────────────────────────────────────────────┘    │
+│                                                                          │
+│  ┌────────────────────────────────────────────────────────────────┐    │
+│  │                    FHIR SERVER                                  │    │
+│  │  ┌──────────────────────────────────────────────────────┐      │    │
+│  │  │         HAPI FHIR Server (Java on ECS)               │      │    │
+│  │  └──────────────────────────────────────────────────────┘      │    │
+│  └────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          DATA LAYER                                      │
+│                                                                          │
+│  ┌────────────────────────────────────────────────────────────────┐    │
+│  │                      DATABASES                                  │    │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │    │
+│  │  │ RDS          │  │  DocumentDB  │  │ ElastiCache  │        │    │
+│  │  │ PostgreSQL   │  │  (MongoDB)   │  │    Redis     │        │    │
+│  │  │ (FHIR Data)  │  │ (Audit Logs) │  │   (Cache)    │        │    │
+│  │  │              │  │              │  │              │        │    │
+│  │  │ Multi-AZ     │  │              │  │ Cluster Mode │        │    │
+│  │  │ + Replicas   │  │              │  │              │        │    │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘        │    │
+│  └────────────────────────────────────────────────────────────────┘    │
+│                                                                          │
+│  ┌────────────────────────────────────────────────────────────────┐    │
+│  │                      STORAGE                                    │    │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │    │
+│  │  │      S3      │  │  S3 Glacier  │  │      S3      │        │    │
+│  │  │   Medical    │  │   Backups    │  │  ML Models   │        │    │
+│  │  │  Documents   │  │              │  │  & Artifacts │        │    │
+│  │  │  (Encrypted) │  │              │  │              │        │    │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘        │    │
+│  └────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                       AI/ML SERVICES                                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │  SageMaker   │  │   Textract   │  │  Transcribe  │                 │
+│  │ (Training &  │  │     (OCR)    │  │ (Voice-to-   │                 │
+│  │  Inference)  │  │              │  │    Text)     │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+│                                                                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │  Translate   │  │  Comprehend  │  │   Bedrock    │                 │
+│  │ (Multi-lang) │  │    (NLP)     │  │  (Gen AI)    │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    MESSAGING & INTEGRATION                               │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │     SQS      │  │     SNS      │  │ EventBridge  │                 │
+│  │   (Queue)    │  │(Notifications)│  │  (Events)    │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                   SECURITY & MONITORING                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │     KMS      │  │   Secrets    │  │  CloudWatch  │                 │
+│  │ (Encryption) │  │   Manager    │  │ (Monitoring) │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+│                                                                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │  GuardDuty   │  │     IAM      │  │ CloudTrail   │                 │
+│  │   (Threat    │  │   (Access    │  │   (Audit)    │                 │
+│  │  Detection)  │  │   Control)   │  │              │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EXTERNAL INTEGRATIONS                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │  WhatsApp    │  │  NDHM/ABHA   │  │ EMR Systems  │                 │
+│  │  Business    │  │   (Govt)     │  │  (HL7/FHIR)  │                 │
+│  │     API      │  │              │  │              │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+## Key AWS Services Used
+
+### Compute
+- **Amazon EKS**: Kubernetes cluster for microservices
+- **Amazon ECS**: Container orchestration for services
+- **AWS Fargate**: Serverless compute for containers
+- **AWS Lambda**: Serverless functions for event processing
+
+### Databases & Storage
+- **Amazon RDS PostgreSQL**: FHIR data storage (Multi-AZ with read replicas)
+- **Amazon DocumentDB**: Audit logs and metadata
+- **Amazon ElastiCache Redis**: Caching layer
+- **Amazon S3**: Object storage for documents and ML models
+- **Amazon S3 Glacier**: Long-term backup storage
+
+### AI/ML
+- **Amazon Bedrock**: Generative AI foundation models
+  - Claude 3 Sonnet for clinical reasoning and note generation
+  - Claude 3 Haiku for fast real-time responses
+  - Amazon Titan for embeddings and semantic search
+  - Llama 3 for open-source alternative
+- **Amazon SageMaker**: ML model training and inference (custom models)
+- **Amazon Textract**: OCR for medical documents
+- **Amazon Transcribe**: Voice-to-text conversion
+- **Amazon Translate**: Multi-language translation (8+ Indian languages)
+- **Amazon Comprehend Medical**: Medical NLP and entity extraction
+- **Amazon Bedrock**: Generative AI for summaries
+
+### Networking & Content Delivery
+- **Amazon Route 53**: DNS management
+- **Amazon CloudFront**: CDN for global content delivery
+- **AWS WAF**: Web application firewall
+- **Application Load Balancer**: Load balancing
+- **Amazon API Gateway**: API management
+
+### Integration & Messaging
+- **Amazon SQS**: Message queuing
+- **Amazon SNS**: Push notifications
+- **Amazon EventBridge**: Event-driven architecture
+
+### Security & Compliance
+- **AWS KMS**: Encryption key management
+- **AWS Secrets Manager**: Credentials management
+- **AWS IAM**: Identity and access management
+- **Amazon GuardDuty**: Threat detection
+- **AWS CloudTrail**: Audit logging
+- **AWS Certificate Manager**: SSL/TLS certificates
+
+### Monitoring & Operations
+- **Amazon CloudWatch**: Monitoring and logging
+- **AWS X-Ray**: Distributed tracing
+- **AWS Systems Manager**: Operations management
+
+## Data Flow
+
+1. **User Request**: Users access via mobile app, web, or WhatsApp
+2. **Edge Processing**: Route 53 → CloudFront → WAF → ALB
+3. **API Layer**: API Gateway authenticates and routes requests
+4. **Service Processing**: Microservices handle business logic
+5. **FHIR Server**: Centralized health data management
+6. **Data Persistence**: RDS, DocumentDB, S3 storage
+7. **AI Processing**: SageMaker, Textract, Comprehend for intelligence
+8. **Notifications**: SNS/SQS for multi-channel alerts
+9. **External Integration**: NDHM, WhatsApp, EMR systems
+
+## High Availability & Disaster Recovery
+
+- **Multi-AZ Deployment**: All critical services across 3 AZs
+- **Auto Scaling**: EKS pods scale based on load
+- **Database Replication**: RDS with read replicas
+- **Backup Strategy**: Daily snapshots + continuous backups
+- **RTO**: 4 hours
+- **RPO**: 15 minutes
+
+## Security Measures
+
+- **Encryption at Rest**: KMS encryption for all data
+- **Encryption in Transit**: TLS 1.3 for all communications
+- **Network Isolation**: VPC with private subnets
+- **Access Control**: IAM roles and policies
+- **Audit Trail**: CloudTrail logs all API calls
+- **Threat Detection**: GuardDuty monitors for threats
+- **Compliance**: HIPAA-equivalent controls
+
+## Cost Optimization
+
+- **Reserved Instances**: For predictable workloads
+- **Spot Instances**: For ML training jobs
+- **S3 Lifecycle Policies**: Move old data to Glacier
+- **Auto Scaling**: Scale down during low usage
+- **CloudFront Caching**: Reduce origin requests
+- **ElastiCache**: Reduce database load
+
+---
+
