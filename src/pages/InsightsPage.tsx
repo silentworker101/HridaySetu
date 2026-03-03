@@ -2,6 +2,8 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { useApp } from '@/contexts/AppContext';
 import { TrendingUp, AlertTriangle, CheckCircle, Lightbulb } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { AiBadge } from '@/components/common/AiBadge';
+import { Badge } from '@/components/ui/badge';
 
 const trendData = [
   { date: 'Jan', hemoglobin: 13.8, wbc: 9000, glucose: 95 },
@@ -23,8 +25,14 @@ export default function InsightsPage() {
 
   return (
     <AppLayout>
-      <div className="max-w-4xl mx-auto animate-fade-in space-y-6">
-        <h1 className="text-2xl font-display font-bold text-foreground">Health Insights</h1>
+      <div className="max-w-6xl mx-auto animate-fade-in space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h1 className="text-2xl font-display font-bold text-foreground">AI Analysis & Health Insights</h1>
+          <div className="flex items-center gap-2">
+            <AiBadge />
+            <Badge variant="outline">Confidence: 86%</Badge>
+          </div>
+        </div>
 
         {/* Summary */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -58,7 +66,7 @@ export default function InsightsPage() {
         </div>
 
         {/* Trend Chart */}
-        <div className="bg-card border rounded-xl p-5">
+        <div className="bg-card border rounded-2xl p-4 sm:p-5">
           <h3 className="text-sm font-semibold text-foreground mb-4">Parameter Trends</h3>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={trendData}>
@@ -72,7 +80,7 @@ export default function InsightsPage() {
         </div>
 
         {/* Recommendations */}
-        <div className="bg-card border rounded-xl p-5">
+        <div className="bg-card border rounded-2xl p-4 sm:p-5">
           <div className="flex items-center gap-2 mb-4">
             <Lightbulb className="h-5 w-5 text-warning" />
             <h3 className="text-sm font-semibold text-foreground">AI Recommendations</h3>

@@ -3,6 +3,7 @@ import { StatCard } from '@/components/dashboard/StatCard';
 import { mockAnalytics, monthlyReportData } from '@/services/mockData';
 import { Users, FileText, Cpu, Activity, Heart, MessageCircle } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { AiBadge } from '@/components/common/AiBadge';
 
 const pieData = [
   { name: 'CBC', value: 42 },
@@ -17,7 +18,10 @@ export default function AnalyticsPage() {
   return (
     <AppLayout>
       <div className="max-w-6xl mx-auto animate-fade-in space-y-8">
-        <h1 className="text-2xl font-display font-bold text-foreground">Analytics</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-display font-bold text-foreground">Admin Analytics</h1>
+          <AiBadge />
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <StatCard title="Total Patients" value={mockAnalytics.totalPatients} icon={Users} variant="primary" />
@@ -29,7 +33,7 @@ export default function AnalyticsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-card border rounded-xl p-5">
+          <div className="bg-card border rounded-2xl p-4 sm:p-5">
             <h3 className="text-sm font-semibold text-foreground mb-4">Monthly Reports</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={monthlyReportData}>
@@ -40,7 +44,7 @@ export default function AnalyticsPage() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="bg-card border rounded-xl p-5">
+          <div className="bg-card border rounded-2xl p-4 sm:p-5">
             <h3 className="text-sm font-semibold text-foreground mb-4">Reports by Type</h3>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
