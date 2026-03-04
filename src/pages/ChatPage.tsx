@@ -78,7 +78,7 @@ export default function ChatPage() {
 
   return (
     <AppLayout>
-      <div className="max-w-6xl mx-auto h-[calc(100dvh-5rem)] sm:h-[calc(100dvh-6rem)] animate-fade-in flex flex-col gap-2">
+      <div className="max-w-6xl mx-auto flex-1 min-h-0 animate-fade-in flex flex-col gap-2">
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}

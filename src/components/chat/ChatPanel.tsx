@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Send, Bot, User, Sparkles, RotateCcw, FileText, ShieldCheck } from 'lucide-react';
 import { ChatMessage } from '@/types';
 import { chatService } from '@/services/aiService';
@@ -19,7 +19,15 @@ export function ChatPanel({ sessionId, initialMessages = [], reportId }: ChatPan
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputAreaRef = useRef<HTMLDivElement>(null);
   const [lastPrompt, setLastPrompt] = useState('');
+
+  const handleInputFocus = useCallback(() => {
+    // When mobile keyboard opens, scroll the input bar into view after layout settles.
+    setTimeout(() => {
+      inputAreaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 300);
+  }, []);
 
   const suggestedPrompts = [
     'Summarize key abnormalities from this report.',
@@ -213,8 +221,8 @@ export function ChatPanel({ sessionId, initialMessages = [], reportId }: ChatPan
         <div ref={bottomRef} />
       </div>
 
-      {/* Input area */}
-      <div className="border-t p-3 sm:p-4 bg-card/95 backdrop-blur-sm">
+      {/* Input area — pinned to bottom, never pushed off-screen by keyboard */}
+      <div ref={inputAreaRef} className="border-t p-3 sm:p-4 bg-card/95 backdrop-blur-sm shrink-0">
         <div className="mb-2 flex items-center justify-between">
           <p className="text-[11px] text-muted-foreground inline-flex items-center gap-1">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -237,8 +245,9 @@ export function ChatPanel({ sessionId, initialMessages = [], reportId }: ChatPan
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
+            onFocus={handleInputFocus}
             placeholder="Ask about your reports..."
-            className="flex-1 bg-muted rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
+            className="flex-1 bg-muted rounded-xl px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
           />
           <Button
             onClick={handleSend}
