@@ -32,9 +32,11 @@ export function ReportCard({ report }: { report: Report }) {
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-medium text-sm text-foreground truncate group-hover:text-primary transition-colors">
-            {report.extractedData?.testName || report.fileName}
+            {report.extractedData?.testName || 'Medical Report'}
           </p>
-          <p className="text-xs text-muted-foreground mt-0.5 truncate">{report.fileName}</p>
+          <p className="text-xs text-muted-foreground mt-0.5 truncate">
+            {[report.extractedData?.lab, report.extractedData?.date].filter(Boolean).join(' · ') || report.fileName}
+          </p>
           <div className="flex flex-wrap items-center gap-2 mt-2">
             <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${status.className}`}>
               <StatusIcon className="h-3 w-3" />

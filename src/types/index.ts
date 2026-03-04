@@ -21,17 +21,49 @@ export interface ReportExtractedData {
   doctor?: string;
 }
 
+export interface OcrResult {
+  text: string;
+  extractedData: ReportExtractedData;
+}
+
+export type ReportSeverity = 'low' | 'moderate' | 'high' | 'critical' | 'unclear';
+
+export interface AbnormalMarkerInsight {
+  name: string;
+  value?: string;
+  unit?: string;
+  status?: 'abnormal' | 'critical' | 'borderline';
+  interpretation: string;
+}
+
+export interface ReportAiInsights {
+  overallImpression: string;
+  severity: ReportSeverity;
+  keyHighlights: string[];
+  abnormalMarkers: AbnormalMarkerInsight[];
+  possibleCauses: string[];
+  whatToDoNext: string[];
+  whenToSeekCare: string;
+  questionsToAskClinician: string[];
+  followUpTests: string[];
+  confidence: number | null;
+  rawText?: string;
+}
+
 export interface Report {
   id: string;
   userId: string;
   userName: string;
   fileName: string;
   fileType: 'pdf' | 'image';
+  previewUrl?: string;
   uploadedAt: string;
   status: 'processing' | 'completed' | 'failed';
+  ocrContent?: string;
   extractedData?: ReportExtractedData;
   aiSummary?: string;
   aiExplanation?: string;
+  aiInsights?: ReportAiInsights;
 }
 
 export interface ChatMessage {
@@ -44,6 +76,7 @@ export interface ChatMessage {
 
 export interface ChatSession {
   id: string;
+  userId: string;
   reportId?: string;
   title: string;
   messages: ChatMessage[];

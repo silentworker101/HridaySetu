@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="200" cy="315" r="60" fill="url(#accent)" opacity="0.15"/>
+  <circle cx="1000" cy="315" r="80" fill="url(#accent)" opacity="0.1"/>
+  <!-- Heart icon -->
+  <g transform="translate(540, 200)">
+    <rect x="0" y="0" width="120" height="120" rx="28" fill="url(#accent)" opacity="0.2"/>
+    <path d="M60 95C40 80 25 65 25 50C25 38 34 30 45 30C52 30 57 34 60 38C63 34 68 30 75 30C86 30 95 38 95 50C95 65 80 80 60 95Z" fill="#2dd4bf"/>
+  </g>
+  <!-- Title -->
+  <text x="600" y="370" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="800" fill="#f1f5f9">HridaySetu</text>
+  <!-- Subtitle -->
+  <text x="600" y="420" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#94a3b8">AI-Powered Healthcare Report Analysis Platform</text>
+  <!-- Tagline -->
+  <text x="600" y="470" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#2dd4bf">Smart OCR · Clinical AI · Health Insights</text>
+  <!-- Bottom bar -->
+  <rect x="0" y="610" width="1200" height="20" fill="url(#accent)" opacity="0.6"/>
+</svg>
