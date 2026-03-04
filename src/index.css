@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 194 35% 98%;
+    --foreground: 205 35% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 200 40% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 40% 10%;
+
+    --primary: 192 72% 41%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 194 34% 94%;
+    --secondary-foreground: 206 34% 16%;
+
+    --muted: 194 22% 95%;
+    --muted-foreground: 206 14% 45%;
+
+    --accent: 185 46% 92%;
+    --accent-foreground: 193 68% 26%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 200 22% 88%;
+    --input: 200 22% 88%;
+    --ring: 192 72% 41%;
+
+    --radius: 0.75rem;
+
+    --success: 153 54% 41%;
+    --success-foreground: 0 0% 100%;
+    --warning: 32 90% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 210 80% 55%;
+    --info-foreground: 0 0% 100%;
+    --abnormal: 0 68% 52%;
+    --abnormal-foreground: 0 0% 100%;
+    --normal: 152 60% 42%;
+    --normal-foreground: 0 0% 100%;
+
+    --sidebar-background: 207 39% 12%;
+    --sidebar-foreground: 197 22% 88%;
+    --sidebar-primary: 190 72% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 207 29% 19%;
+    --sidebar-accent-foreground: 194 21% 92%;
+    --sidebar-border: 207 29% 20%;
+    --sidebar-ring: 190 72% 58%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(191 74% 42%), hsl(171 45% 45%));
+    --gradient-hero: linear-gradient(135deg, hsl(191 74% 42%), hsl(205 78% 56%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(194 30% 97%));
+    --shadow-card: 0 1px 3px hsl(205 20% 10% / 0.06), 0 4px 14px hsl(205 20% 10% / 0.04);
+    --shadow-elevated: 0 8px 24px hsl(205 20% 10% / 0.08), 0 16px 44px hsl(205 20% 10% / 0.06);
+
+    --font-display: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  .dark {
+    --background: 200 35% 8%;
+    --foreground: 200 15% 92%;
+    --card: 200 30% 12%;
+    --card-foreground: 200 15% 92%;
+    --popover: 200 30% 12%;
+    --popover-foreground: 200 15% 92%;
+    --primary: 174 62% 50%;
+    --primary-foreground: 200 40% 8%;
+    --secondary: 200 25% 18%;
+    --secondary-foreground: 200 15% 90%;
+    --muted: 200 25% 16%;
+    --muted-foreground: 200 15% 60%;
+    --accent: 200 25% 18%;
+    --accent-foreground: 174 62% 65%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 25% 20%;
+    --input: 200 25% 20%;
+    --ring: 174 62% 50%;
+    --sidebar-background: 200 35% 6%;
+    --sidebar-foreground: 200 20% 85%;
+    --sidebar-primary: 174 62% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 200 30% 12%;
+    --sidebar-accent-foreground: 200 20% 90%;
+    --sidebar-border: 200 30% 15%;
+    --sidebar-ring: 174 62% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  .animate-pulse-soft {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(200 20% 80%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(200 20% 65%);
+}
