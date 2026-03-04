@@ -43,22 +43,38 @@ async function fileToBase64(file: File): Promise<string> {
 }
 
 async function postJson<T>(url: string, body: unknown): Promise<T> {
-  const MAX_RETRIES = 3;
+  const MAX_RETRIES = 5;
+  const RETRY_DELAYS = [4000, 8000, 12000, 16000]; // escalating backoff
   const jsonBody = JSON.stringify(body);
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-    const res = await fetch(url, {
+    let res = await fetch(url, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: jsonBody,
+      redirect: 'manual',
     });
+
+    // If the server redirects (301/302/307/308), re-send POST to the new location.
+    // Browsers downgrade POST→GET on 302 redirects, which breaks API calls.
+    if (res.status >= 301 && res.status <= 308) {
+      const location = res.headers.get('location');
+      if (location) {
+        const redirectUrl = new URL(location, window.location.origin).href;
+        console.warn(`[API] Redirected ${res.status} → ${redirectUrl}, re-sending POST`);
+        res = await fetch(redirectUrl, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: jsonBody,
+        });
+      }
+    }
 
     if (res.ok) return res.json() as Promise<T>;
 
-    // Retry on 503 (cold start) or 429 (rate limit) with exponential backoff
     if ((res.status === 503 || res.status === 429) && attempt < MAX_RETRIES) {
-      const delay = attempt * 3000;
-      console.warn(`[API] ${res.status} from ${url} — retrying in ${delay / 1000}s (attempt ${attempt}/${MAX_RETRIES})`);
+      const delay = RETRY_DELAYS[attempt - 1] ?? 16000;
+      console.warn(`[API] ${res.status} from ${url} — model warming up, retrying in ${delay / 1000}s (attempt ${attempt}/${MAX_RETRIES})`);
       await new Promise(r => setTimeout(r, delay));
       continue;
     }
