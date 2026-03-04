@@ -14,16 +14,4 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-customRules:
-  - source: /api/ocr
-    target: https://o8v52nwv83.execute-api.us-east-1.amazonaws.com/ocr
-    status: '200'
-    condition: null
-  - source: /api/analysis
-    target: https://bc2q32foef.execute-api.us-east-1.amazonaws.com/v1/chat/completions
-    status: '200'
-    condition: null
-  - source: </^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json)$)([^.]+$)/>
-    target: /index.html
-    status: '200'
-    condition: null
+

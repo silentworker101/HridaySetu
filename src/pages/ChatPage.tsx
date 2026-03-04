@@ -78,16 +78,16 @@ export default function ChatPage() {
 
   return (
     <AppLayout>
-      <div className="max-w-6xl mx-auto min-h-[70vh] lg:h-[calc(100dvh-7rem)] animate-fade-in space-y-3">
+      <div className="max-w-6xl mx-auto h-[calc(100dvh-5rem)] sm:h-[calc(100dvh-6rem)] animate-fade-in flex flex-col gap-2">
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
         >
           <ArrowLeft className="h-4 w-4" /> Back
         </button>
 
-        <div className="bg-card border rounded-2xl h-[calc(100%-2.5rem)] flex flex-col overflow-hidden shadow-card">
+        <div className="bg-card border rounded-2xl flex-1 min-h-0 flex flex-col overflow-hidden shadow-card">
           <div className="px-4 sm:px-5 py-4 border-b">
             <h1 className="text-lg font-display font-semibold text-foreground">AI Health Assistant</h1>
             <div className="mt-1 flex flex-wrap items-center gap-2">
