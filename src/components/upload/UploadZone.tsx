@@ -119,10 +119,13 @@ export function UploadZone() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
       console.error('Upload/analysis error:', message);
+      const is503 = message.includes('503');
       toast({
-        title: 'Analysis failed',
-        description: message.length < 120 ? message : 'Could not complete OCR or AI analysis. Please retry in a moment.',
-        variant: 'destructive',
+        title: is503 ? 'AI model is warming up' : 'Analysis failed',
+        description: is503
+          ? 'The AI service is starting up. Please wait 30 seconds and try again.'
+          : message.length < 120 ? message : 'Could not complete OCR or AI analysis. Please retry in a moment.',
+        variant: is503 ? 'default' : 'destructive',
       });
     } finally {
       setTimeout(() => setProgress(0), 450);
