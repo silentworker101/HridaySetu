@@ -1,13 +1,7 @@
 import { AbnormalMarkerInsight, ChatMessage, OcrResult, ReportExtractedData } from '@/types';
 
-const isDev = import.meta.env.DEV;
-
-const OCR_URL = import.meta.env.VITE_OCR_URL
-  || (isDev ? '/api/ocr' : 'https://o8v52nwv83.execute-api.us-east-1.amazonaws.com/ocr');
-
-const ANALYSIS_URL = import.meta.env.VITE_AI_ANALYSIS_URL
-  || (isDev ? '/api/analysis' : 'https://bc2q32foef.execute-api.us-east-1.amazonaws.com/v1/chat/completions');
-
+const OCR_URL = import.meta.env.VITE_OCR_URL || '/api/ocr';
+const ANALYSIS_URL = import.meta.env.VITE_AI_ANALYSIS_URL || '/api/analysis';
 const ANALYSIS_MODEL = import.meta.env.VITE_AI_ANALYSIS_MODEL || 'm42-health/Llama3-Med42-8B';
 
 const BASE_SYSTEM_PROMPT =
