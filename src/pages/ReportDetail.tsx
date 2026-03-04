@@ -458,6 +458,38 @@ export default function ReportDetail() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                {report.previewUrl && (
+                  <AccordionItem value="preview">
+                    <AccordionTrigger className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <FileImage className="h-4 w-4 text-primary" />
+                        <span className="text-sm font-semibold text-foreground">Document Preview</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pb-4">
+                      {report.fileType === 'pdf' ? (
+                        <button
+                          onClick={() => setIsZoomed(true)}
+                          className="block w-full h-56 rounded-xl overflow-hidden border bg-background cursor-zoom-in"
+                        >
+                          <iframe src={report.previewUrl} title={report.fileName} className="w-full h-full pointer-events-none" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setIsZoomed(true)}
+                          className="group w-full flex items-center justify-center rounded-xl overflow-hidden border bg-muted/30 cursor-zoom-in relative"
+                        >
+                          <img src={report.previewUrl} alt={report.fileName} className="max-h-64 object-contain" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                              <Maximize2 className="h-3 w-3" /> View full size
+                            </span>
+                          </div>
+                        </button>
+                      )}
+                    </AccordionContent>
+                  </AccordionItem>
+                )}
                 <AccordionItem value="sources">
                   <AccordionTrigger className="px-4 py-3">
                     <span className="text-sm font-semibold text-foreground">Data Sources</span>

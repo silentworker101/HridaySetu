@@ -43,16 +43,31 @@ async function fileToBase64(file: File): Promise<string> {
 }
 
 async function postJson<T>(url: string, body: unknown): Promise<T> {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
+  const MAX_RETRIES = 3;
+  const jsonBody = JSON.stringify(body);
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: jsonBody,
+    });
+
+    if (res.ok) return res.json() as Promise<T>;
+
+    // Retry on 503 (cold start) or 429 (rate limit) with exponential backoff
+    if ((res.status === 503 || res.status === 429) && attempt < MAX_RETRIES) {
+      const delay = attempt * 3000;
+      console.warn(`[API] ${res.status} from ${url} — retrying in ${delay / 1000}s (attempt ${attempt}/${MAX_RETRIES})`);
+      await new Promise(r => setTimeout(r, delay));
+      continue;
+    }
+
     const text = await res.text();
     throw new Error(`Request failed (${res.status}): ${text}`);
   }
-  return res.json() as Promise<T>;
+
+  throw new Error('Max retries exceeded');
 }
 
 /**
@@ -205,7 +220,7 @@ export const reasoningService = {
     const systemPrompt = buildSystemPromptWithReport(text);
     return callAnalysisModel(
       systemPrompt,
-      'Explain this report in simple language. Note abnormalities and next steps.',
+      'Explain this report in simple language. Note abnormalities.',
       [],
       512,
     );
