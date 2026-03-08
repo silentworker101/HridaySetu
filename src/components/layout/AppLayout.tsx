@@ -29,9 +29,9 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
   return (
     <SidebarProvider>
-        <div className="h-full flex w-full bg-[radial-gradient(ellipse_at_top_right,hsl(var(--accent))_0%,hsl(var(--background))_55%)] overflow-hidden">
+        <div className="h-full flex w-full min-w-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--accent))_0%,hsl(var(--background))_55%)] overflow-hidden">
         <AppSidebar />
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 w-full basis-0 overflow-hidden">
           <header className="h-14 flex items-center gap-3 border-b border-border/60 px-3 sm:px-4 lg:px-6 bg-background/80 backdrop-blur-md sticky top-0 z-30">
             <SidebarTrigger className="h-8 w-8 rounded-lg border border-border/70 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors shrink-0" />
 
@@ -63,7 +63,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </div>
             )}
           </header>
-          <main className="flex-1 min-h-0 overflow-auto p-3 sm:p-5 lg:p-6 flex flex-col">{children}</main>
+          <main className="flex-1 min-h-0 min-w-0 overflow-auto p-3 sm:p-5 lg:p-6 flex flex-col w-full">{children}</main>
         </div>
       </div>
     </SidebarProvider>
