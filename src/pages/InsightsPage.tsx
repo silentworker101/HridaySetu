@@ -5,8 +5,6 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend,
   BarChart, Bar, CartesianGrid,
 } from 'recharts';
-import { AiBadge } from '@/components/common/AiBadge';
-import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
@@ -147,11 +145,7 @@ export default function InsightsPage() {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h1 className="text-2xl font-display font-bold text-foreground">AI Analysis &amp; Health Insights</h1>
-            <p className="text-sm text-muted-foreground mt-0.5">Trends and AI-generated recommendations based on your reports.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <AiBadge />
-            <Badge variant="outline" className="text-xs">Confidence: 86%</Badge>
+            <p className="text-sm text-muted-foreground mt-0.5">Trends and recommendations based on your reports.</p>
           </div>
         </div>
 
@@ -284,7 +278,6 @@ export default function InsightsPage() {
               <Lightbulb className="h-4 w-4 text-warning" />
               <h3 className="text-sm font-semibold text-foreground">AI Recommendations</h3>
             </div>
-            <AiBadge />
           </div>
           <ul className="space-y-3">
             {recommendations.map((rec, i) => (

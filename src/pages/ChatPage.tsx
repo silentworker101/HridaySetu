@@ -1,7 +1,6 @@
 import { AppLayout } from '@/components/layout/AppLayout';
 import { ChatPanel } from '@/components/chat/ChatPanel';
 import { useApp } from '@/contexts/AppContext';
-import { AiBadge } from '@/components/common/AiBadge';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, FileText } from 'lucide-react';
@@ -99,7 +98,6 @@ export default function ChatPage() {
               ) : (
                 <span className="text-xs text-muted-foreground">General health questions · {contextDate}</span>
               )}
-              <AiBadge />
             </div>
           </div>
           <div className="flex-1 min-h-0">

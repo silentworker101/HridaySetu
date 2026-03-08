@@ -6,7 +6,6 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Button } from '@/components/ui/button';
-import { AiBadge } from '@/components/common/AiBadge';
 
 export default function Dashboard() {
   const { currentUser, reports, chatSessions } = useApp();
@@ -91,9 +90,6 @@ export default function Dashboard() {
           <div className="absolute top-0 right-0 w-64 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
           <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <AiBadge />
-              </div>
               <h2 className="text-2xl font-display font-bold text-foreground">
                 Welcome back, {currentUser?.name?.split(' ')[0]}
               </h2>
@@ -210,7 +206,6 @@ export default function Dashboard() {
             <div className="bg-card border rounded-2xl p-4 sm:p-5">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-sm font-semibold text-foreground">AI Insights Panel</h4>
-                <AiBadge />
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {currentUser?.role === 'patient' && '2 parameters need follow-up. Ask AI to compare your last two reports.'}

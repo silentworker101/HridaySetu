@@ -5,14 +5,13 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { useApp } from '@/contexts/AppContext';
 import { Button } from '@/components/ui/button';
 import { SeverityBadge } from '@/components/common/SeverityBadge';
-import { AiBadge } from '@/components/common/AiBadge';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { reasoningService } from '@/services/aiService';
 
 // ─── Report Text Renderer ────────────────────────────────────────────────────
-// Parses AI-generated plain text into structured, visually formatted sections.
+// Parses model-generated plain text into structured, visually formatted sections.
 // Handles: numbered sections (1. ...), bullet sub-items (- ...), plain paragraphs.
 // Zero hardcoded content — purely a formatting layer on top of whatever the AI returns.
 
@@ -264,7 +263,6 @@ export default function ReportDetail() {
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <SeverityBadge severity={statusTone} />
                 <Badge variant="outline">{abnormalCount} flagged markers</Badge>
-                <AiBadge />
               </div>
             </div>
             <div className="flex flex-wrap gap-2 shrink-0">
@@ -300,10 +298,9 @@ export default function ReportDetail() {
             <div className="bg-card border rounded-2xl p-4 sm:p-5">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold text-foreground">Key Highlights</h3>
-                <AiBadge />
               </div>
               <div className="space-y-2">
-                {/* Priority 1: AI-generated key highlights from structured insights */}
+                {/* Priority 1: Key highlights from structured insights */}
                 {(report.aiInsights?.keyHighlights?.length ?? 0) > 0 ? (
                   report.aiInsights!.keyHighlights.map((highlight, idx) => (
                     <div key={idx} className="flex items-start gap-3 py-1.5 border-b border-border/30 last:border-0">
@@ -335,7 +332,6 @@ export default function ReportDetail() {
               <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="h-4 w-4 text-primary" />
                 <h3 className="text-sm font-semibold text-foreground">Detailed Report</h3>
-                <AiBadge className="ml-auto" />
               </div>
 
               <ReportTextRenderer text={report.aiSummary} />
@@ -361,7 +357,6 @@ export default function ReportDetail() {
               <div className="bg-card border rounded-2xl p-4 sm:p-5">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-semibold text-foreground">AI Summary</h3>
-                  <AiBadge />
                 </div>
                 <p className="text-sm text-foreground leading-relaxed">
                   {report.aiSummary || 'AI summary is being generated.'}
@@ -427,7 +422,7 @@ export default function ReportDetail() {
                   {[
                     'Structured clinical data extracted from the uploaded document',
                     'Lab markers and status classification',
-                    'AI-generated reasoning from combined clinical context',
+                    'Reasoning from combined clinical context',
                   ].map(s => (
                     <li key={s} className="flex items-start gap-2 text-xs text-muted-foreground">
                       <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/60 shrink-0" />
@@ -445,7 +440,6 @@ export default function ReportDetail() {
                   <AccordionTrigger className="px-4 py-3">
                     <div className="flex items-center justify-between w-full pr-2">
                       <span className="text-sm font-semibold text-foreground">AI Summary</span>
-                      <AiBadge />
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="px-4 pb-4">
@@ -499,7 +493,7 @@ export default function ReportDetail() {
                       {[
                         'Structured clinical data extracted from the uploaded document',
                         'Lab markers and status classification',
-                        'AI-generated reasoning from combined clinical context',
+                        'Reasoning from combined clinical context',
                       ].map(s => (
                         <li key={s} className="flex items-start gap-2 text-xs text-muted-foreground">
                           <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/60 shrink-0" />

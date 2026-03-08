@@ -3,7 +3,7 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { useApp } from '@/contexts/AppContext';
 import { useLocation } from 'react-router-dom';
-import { Sparkles, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 const routeTitles: Record<string, string> = {
   '/dashboard': 'Dashboard',
@@ -43,12 +43,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
             </div>
 
             <div className="flex-1" />
-
-            {/* AI badge */}
-            <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-primary/20 bg-primary/8 text-xs font-medium text-primary">
-              <Sparkles className="h-3 w-3" />
-              AI-generated insights
-            </span>
 
             {/* User avatar */}
             {currentUser && (

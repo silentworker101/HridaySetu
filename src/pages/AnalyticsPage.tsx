@@ -2,7 +2,6 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { StatCard } from '@/components/dashboard/StatCard';
 import { Users, FileText, Cpu, Activity, Heart, MessageCircle } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { AiBadge } from '@/components/common/AiBadge';
 import { useApp } from '@/contexts/AppContext';
 
 const PIE_COLORS = ['hsl(174,62%,40%)', 'hsl(200,70%,50%)', 'hsl(38,92%,50%)', 'hsl(0,72%,55%)', 'hsl(200,20%,70%)'];
@@ -92,7 +91,6 @@ export default function AnalyticsPage() {
       <div className="max-w-6xl mx-auto animate-fade-in space-y-8">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-display font-bold text-foreground">Admin Analytics</h1>
-          <AiBadge />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

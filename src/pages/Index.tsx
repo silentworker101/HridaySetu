@@ -52,7 +52,7 @@ const features = [
   {
     icon: Activity,
     title: 'Real-Time Insights',
-    description: 'Get instant parameter extraction, trend tracking, and AI-generated recommendations.',
+    description: 'Get instant parameter extraction, trend tracking, and recommendations.',
   },
 ];
 

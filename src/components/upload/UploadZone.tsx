@@ -6,7 +6,6 @@ import { ocrService, reasoningService } from '@/services/aiService';
 import { Report } from '@/types';
 import { useNavigate } from 'react-router-dom';
 import { Progress } from '@/components/ui/progress';
-import { AiBadge } from '@/components/common/AiBadge';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -265,7 +264,6 @@ export function UploadZone() {
                   <span className="h-4 w-4 rounded-full border border-border shrink-0" />
                 )}
                 <span className={`text-sm ${isActive ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>{label}</span>
-                {isActive && <AiBadge className="ml-auto" />}
               </div>
             );
           })}

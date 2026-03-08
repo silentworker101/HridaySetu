@@ -3,7 +3,6 @@ import { Send, Bot, User, Sparkles, RotateCcw, FileText, ShieldCheck } from 'luc
 import { ChatMessage } from '@/types';
 import { chatService } from '@/services/aiService';
 import { Button } from '@/components/ui/button';
-import { AiBadge } from '@/components/common/AiBadge';
 import { Badge } from '@/components/ui/badge';
 import { useApp } from '@/contexts/AppContext';
 
@@ -186,8 +185,6 @@ export function ChatPanel({ sessionId, initialMessages = [], reportId }: ChatPan
               <p className="whitespace-pre-wrap">{msg.content}</p>
               {msg.role === 'assistant' && (
                 <div className="mt-3 flex flex-wrap items-center gap-2 pt-2 border-t border-border/30">
-                  <AiBadge />
-                  <Badge variant="outline" className="text-[11px]">Confidence: 84%</Badge>
                   {reportId && (
                     <Badge variant="outline" className="text-[11px] gap-1">
                       <FileText className="h-3 w-3" /> Report context
@@ -226,7 +223,7 @@ export function ChatPanel({ sessionId, initialMessages = [], reportId }: ChatPan
         <div className="mb-2 flex items-center justify-between">
           <p className="text-[11px] text-muted-foreground inline-flex items-center gap-1">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            AI-generated suggestions. Verify with a licensed clinician.
+            Suggestions. Verify with a licensed clinician.
           </p>
           <Button
             type="button"

@@ -1,6 +1,5 @@
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Server, Database, Cpu, Wifi, CheckCircle } from 'lucide-react';
-import { AiBadge } from '@/components/common/AiBadge';
 
 const services = [
   { name: 'OCR Service (olmOCR-2-7B)', status: 'operational', icon: Cpu },
@@ -16,7 +15,6 @@ export default function SystemPage() {
       <div className="max-w-4xl mx-auto animate-fade-in space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-display font-bold text-foreground">System Monitoring</h1>
-          <AiBadge />
         </div>
         <div className="bg-card border rounded-2xl overflow-hidden">
           <div className="p-5 border-b">
